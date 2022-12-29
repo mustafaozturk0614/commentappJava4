@@ -2,7 +2,9 @@ package com.bilgeadam.commentappJava4.utility;
 
 import com.bilgeadam.commentappJava4.repository.entity.EUserType;
 import com.bilgeadam.commentappJava4.repository.entity.Product;
+import com.bilgeadam.commentappJava4.repository.entity.ProductComment;
 import com.bilgeadam.commentappJava4.repository.entity.User;
+import com.bilgeadam.commentappJava4.service.ProductCommentService;
 import com.bilgeadam.commentappJava4.service.ProductService;
 import com.bilgeadam.commentappJava4.service.UserService;
 import lombok.RequiredArgsConstructor;
@@ -19,14 +21,14 @@ public class DataImpl {
 
     private final UserService userService;
     private final ProductService productService;
-  /*  private  final ProductCommentService productCommentService;
-    private final LikeService likeService;*/
+    private final ProductCommentService productCommentService;
+    //   private final LikeService likeService;*/
 
     @PostConstruct
     public void loadData() {
         createUser();
         createproduct();
-//        createproductComment();
+        createproductComment();
 //   createLikes();
 
     }
@@ -90,24 +92,24 @@ public class DataImpl {
         Product product10 = Product.builder().name("İçim  BeyazPeynir").expirationDate(LocalDate.now()).price(15).build();
         Product product11 = Product.builder().name("Cola").expirationDate(LocalDate.now()).price(100).build();
         productService.saveAll(List.of(product, product1, product2, product3, product4, product5, product6, product7, product8, product9, product10, product11));
-        
+
     }
 
-//    public  void createproductComment(){
-//
-//        ProductComment pc1=ProductComment.builder().comment("begendim").productId(1L).userId(1L).commentDate(LocalDate.now().minusMonths(3)).build();
-//        ProductComment pc2=ProductComment.builder().comment("cok guzel bir bilgisayar").productId(1L).userId(2L).commentDate(LocalDate.now().minusMonths(10)).build();
-//        ProductComment pc3=ProductComment.builder().comment("fazla begenmedim idare eder").productId(1L).userId(3L).commentDate(LocalDate.now().minusMonths(1)).build();
-//        ProductComment pc4=ProductComment.builder().comment("begendim").productId(8L).userId(4L).commentDate(LocalDate.now().minusDays(3)).build();
-//        ProductComment pc5=ProductComment.builder().comment("lezzetli").productId(3L).userId(4L).commentDate(LocalDate.now().minusDays(13)).build();
-//        ProductComment pc6=ProductComment.builder().comment("lezzetli").productId(4L).userId(5L).commentDate(LocalDate.now().minusDays(1)).build();
-//        ProductComment pc7=ProductComment.builder().comment("idare eder").productId(5L).userId(5L).commentDate(LocalDate.now().minusDays(13)).build();
-//        ProductComment pc8=ProductComment.builder().comment("kotu bir urun").productId(6L).userId(4L).commentDate(LocalDate.now().minusDays(3)).build();
-//        ProductComment pc9=ProductComment.builder().comment("cok guzel").productId(7L).userId(2L).commentDate(LocalDate.now().minusDays(266)).build();
-//        ProductComment pc10=ProductComment.builder().comment("begendim").productId(8L).userId(3L).commentDate(LocalDate.now().minusYears(1)).build();
-//        productCommentService.saveAll(List.of(pc1,pc2,pc3,pc4,pc5,pc6,pc7,pc8,pc9,pc10));
-//
-//    }
+    public void createproductComment() {
+
+        ProductComment pc1 = ProductComment.builder().comment("begendim").productId(1L).userId(1L).commentDate(LocalDate.now().minusMonths(3)).build();
+        ProductComment pc2 = ProductComment.builder().comment("cok guzel bir bilgisayar").productId(1L).userId(2L).commentDate(LocalDate.now().minusMonths(10)).build();
+        ProductComment pc3 = ProductComment.builder().comment("fazla begenmedim idare eder").productId(1L).userId(3L).commentDate(LocalDate.now().minusMonths(1)).build();
+        ProductComment pc4 = ProductComment.builder().comment("begendim").productId(8L).userId(4L).commentDate(LocalDate.now().minusDays(3)).build();
+        ProductComment pc5 = ProductComment.builder().comment("lezzetli").productId(3L).userId(4L).commentDate(LocalDate.now().minusDays(13)).build();
+        ProductComment pc6 = ProductComment.builder().comment("lezzetli").productId(4L).userId(5L).commentDate(LocalDate.now().minusDays(1)).build();
+        ProductComment pc7 = ProductComment.builder().comment("idare eder").productId(5L).userId(5L).commentDate(LocalDate.now().minusDays(13)).build();
+        ProductComment pc8 = ProductComment.builder().comment("kotu bir urun").productId(6L).userId(4L).commentDate(LocalDate.now().minusDays(3)).build();
+        ProductComment pc9 = ProductComment.builder().comment("cok guzel").productId(7L).userId(2L).commentDate(LocalDate.now().minusDays(266)).build();
+        ProductComment pc10 = ProductComment.builder().comment("begendim").productId(8L).userId(3L).commentDate(LocalDate.now().minusYears(1)).build();
+        productCommentService.saveAll(List.of(pc1, pc2, pc3, pc4, pc5, pc6, pc7, pc8, pc9, pc10));
+
+    }
 
 //    public  void createLikes() {
 //        Like like = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(1L).productId(1L).build();
