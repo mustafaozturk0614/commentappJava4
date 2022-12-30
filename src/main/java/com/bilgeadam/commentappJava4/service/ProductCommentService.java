@@ -1,18 +1,27 @@
 package com.bilgeadam.commentappJava4.service;
 
+import com.bilgeadam.commentappJava4.exception.CommentAppException;
+import com.bilgeadam.commentappJava4.exception.ErrorType;
 import com.bilgeadam.commentappJava4.repository.IProductCommentRepository;
+import com.bilgeadam.commentappJava4.repository.entity.Product;
 import com.bilgeadam.commentappJava4.repository.entity.ProductComment;
+import com.bilgeadam.commentappJava4.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductCommentService {
 
     private final IProductCommentRepository productCommentRepository;
+
+    private final ProductService productService;
+
+    private final UserService userService;
 
     public void saveAll(List<ProductComment> pc1) {
         productCommentRepository.saveAll(pc1);
@@ -51,5 +60,48 @@ public class ProductCommentService {
 
     public List<ProductComment> findByCommentLength3(int length) {
         return productCommentRepository.findByCommentLength3(length);
+    }
+
+    public List<ProductComment> findAll() {
+
+        return productCommentRepository.findAll();
+
+    }
+
+    public ProductComment findById(Long id) {
+        Optional<ProductComment> productComment = productCommentRepository.findById(id);
+        if (productComment.isPresent()) {
+            return productComment.get();
+        } else {
+            throw new CommentAppException(ErrorType.PRODUCTCOMMENT_NOT_FOUND);
+        }
+
+    }
+
+    public void deleteById(Long id) {
+        Optional<ProductComment> productComment = productCommentRepository.findById(id);
+        if (productComment.isPresent()) {
+            productCommentRepository.deleteById(id);
+        } else {
+            throw new CommentAppException(ErrorType.PRODUCTCOMMENT_NOT_FOUND);
+        }
+    }
+
+    public ProductComment save(String comment, long productId, long userId) {
+
+        Optional<Product> product = productService.findById(productId);
+        Optional<User> user = userService.findById(userId);
+
+        if (product.isPresent() && user.isPresent()) {
+            try {
+                return productCommentRepository.save(ProductComment.builder().comment(comment).productId(productId).userId(userId).build());
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        } else {
+
+            throw new CommentAppException(ErrorType.PRODUCTCOMMENT_NOT_CREATED);
+        }
+        
     }
 }

@@ -6,6 +6,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,7 +24,6 @@ public class User {
     @Column(length = 50)
     private String surName;
     @Column(length = 50)
-
     private String email;
     @Column(length = 32)
     private String password;
@@ -31,5 +32,9 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private EUserType userType = EUserType.USER;
+    
+    @ElementCollection
+    @Builder.Default
+    List<Long> favProducts = new ArrayList<>();
 
 }

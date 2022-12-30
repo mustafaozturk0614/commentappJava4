@@ -4,9 +4,7 @@ import com.bilgeadam.commentappJava4.repository.entity.ProductComment;
 import com.bilgeadam.commentappJava4.service.ProductCommentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -60,5 +58,30 @@ public class ProductCommentController {
     public ResponseEntity<List<ProductComment>> findByCommentLength3(int length) {
 
         return ResponseEntity.ok(productCommentService.findByCommentLength3(length));
+    }
+
+    @GetMapping("/findall")
+    public ResponseEntity<List<ProductComment>> findAll() {
+
+        return ResponseEntity.ok(productCommentService.findAll());
+    }
+
+    @GetMapping("/findbyid/{id}")
+    public ResponseEntity<ProductComment> findById(@PathVariable Long id) {
+        return ResponseEntity.ok(productCommentService.findById(id));
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteById(Long id) {
+        productCommentService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+
+    @GetMapping("/save")
+    public ResponseEntity<ProductComment> save(String comment, long productId, long userId) {
+
+        return ResponseEntity.ok(productCommentService.save(comment, productId, userId));
+
     }
 }

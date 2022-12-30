@@ -4,9 +4,7 @@ import com.bilgeadam.commentappJava4.repository.entity.Product;
 import com.bilgeadam.commentappJava4.service.ProductService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -92,4 +90,30 @@ public class ProductController {
 
         return ResponseEntity.ok(productService.findAllByExpirationDateBetween());
     }
+
+    @GetMapping("/findall")
+    public ResponseEntity<List<Product>> findAll() {
+
+        return ResponseEntity.ok(productService.findAll());
+    }
+
+    @GetMapping("/findbyid/{id}")
+    public ResponseEntity<Product> findById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(productService.findById(id).get());
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteById(Long id) {
+        productService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/save")
+    public ResponseEntity<Product> save(String name, double price, String expirationDate) {
+
+        return ResponseEntity.ok(productService.save(name, price, expirationDate));
+
+    }
+
 }

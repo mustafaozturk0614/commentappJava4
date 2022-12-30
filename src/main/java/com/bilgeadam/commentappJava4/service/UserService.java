@@ -3,6 +3,7 @@ package com.bilgeadam.commentappJava4.service;
 import com.bilgeadam.commentappJava4.exception.CommentAppException;
 import com.bilgeadam.commentappJava4.exception.ErrorType;
 import com.bilgeadam.commentappJava4.repository.IUserRepository;
+import com.bilgeadam.commentappJava4.repository.entity.Product;
 import com.bilgeadam.commentappJava4.repository.entity.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -10,13 +11,20 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
+/*
+
+findall
+findbyid
+delete
+
+ */
 @Service
 @RequiredArgsConstructor
 public class UserService {
 
 
     private final IUserRepository userRepository;
-
+    private final ProductService productService;
 
     public List<User> findOrderByName() {
 
@@ -92,5 +100,67 @@ public class UserService {
 
     public List<User> passwordControl2(int length) {
         return userRepository.controlPassword2(length);
+    }
+
+    public User save(String name, String surName, String email, String password) {
+        try {
+            User user = User.builder().name(name).surName(surName).email(email).password(password).build();
+            return userRepository.save(user);
+        } catch (Exception e) {
+            throw new CommentAppException(ErrorType.USER_NOT_CREATED);
+        }
+    }
+
+
+    public List<User> findAll() {
+        return userRepository.findAll();
+    }
+
+    public Optional<User> findById(Long id) {
+
+        Optional<User> user = userRepository.findById(id);
+
+        if (user.isPresent()) {
+            return user;
+        } else {
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND);
+        }
+    }
+
+
+    public void deleteById(Long id) {
+        Optional<User> user = userRepository.findById(id);
+        if (user.isPresent()) {
+            userRepository.deleteById(id);
+        } else {
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND);
+        }
+    }
+
+    public List<Long> getFavProducts(long userId) {
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND);
+        } else {
+            return user.get().getFavProducts();
+        }
+    }
+
+
+    public void addFavProduct(long userId, long productId) {
+        Optional<Product> product = productService.findById(productId);
+        Optional<User> user = userRepository.findById(userId);
+        if (user.isEmpty()) {
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND);
+        }
+        if (product.isEmpty()) {
+            throw new CommentAppException(ErrorType.PRODUCT_NOT_FOUND);
+        }
+        if (user.get().getFavProducts().contains(productId)) {
+            throw new CommentAppException(ErrorType.PRODUCT_ALREADY_EXISTS_IN_FAVOURITE_LIST);
+        } else {
+            user.get().getFavProducts().add(productId);
+            userRepository.save(user.get());
+        }
     }
 }

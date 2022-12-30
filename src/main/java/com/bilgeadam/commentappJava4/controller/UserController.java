@@ -4,9 +4,7 @@ import com.bilgeadam.commentappJava4.repository.entity.User;
 import com.bilgeadam.commentappJava4.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -54,5 +52,42 @@ public class UserController {
     @GetMapping("/controlpassword2")
     public ResponseEntity<List<User>> controlPassword2(int length) {
         return ResponseEntity.ok(userService.passwordControl2(length));
+    }
+
+    @GetMapping("/save")
+    public ResponseEntity<User> save(String name, String surName, String email, String password) {
+
+        return ResponseEntity.ok(userService.save(name, surName, email, password));
+    }
+
+
+    @GetMapping("/findall")
+    public ResponseEntity<List<User>> findAll() {
+
+        return ResponseEntity.ok(userService.findAll());
+    }
+
+    @GetMapping("/findbyid/{id}")
+    public ResponseEntity<User> findById(@PathVariable Long id) {
+
+        return ResponseEntity.ok(userService.findById(id).get());
+    }
+
+    @DeleteMapping("/delete")
+    public ResponseEntity<Void> deleteById(Long id) {
+        userService.deleteById(id);
+        return ResponseEntity.ok().build();
+    }
+
+    @GetMapping("/addfavproduct")
+    public void addFavProduct(long userId, long productId) {
+
+        userService.addFavProduct(userId, productId);
+    }
+
+    @GetMapping("/getfavproducts")
+    public ResponseEntity<List<Long>> getFavProduct(long userId) {
+
+        return ResponseEntity.ok(userService.getFavProducts(userId));
     }
 }

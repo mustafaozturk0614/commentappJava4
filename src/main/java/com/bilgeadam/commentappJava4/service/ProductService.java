@@ -1,5 +1,7 @@
 package com.bilgeadam.commentappJava4.service;
 
+import com.bilgeadam.commentappJava4.exception.CommentAppException;
+import com.bilgeadam.commentappJava4.exception.ErrorType;
 import com.bilgeadam.commentappJava4.repository.IProductRepository;
 import com.bilgeadam.commentappJava4.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
@@ -7,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -103,4 +106,41 @@ public class ProductService {
     }
 
 
+    public List<Product> findAll() {
+
+        return productRepository.findAll();
+
+    }
+
+    public Optional<Product> findById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            return product;
+        } else {
+            throw new CommentAppException(ErrorType.PRODUCT_NOT_FOUND);
+        }
+
+    }
+
+    public void deleteById(Long id) {
+        Optional<Product> product = productRepository.findById(id);
+        if (product.isPresent()) {
+            productRepository.deleteById(id);
+        } else {
+            throw new CommentAppException(ErrorType.PRODUCT_NOT_FOUND);
+        }
+    }
+
+    public Product save(String name, double price, String expirationDate) {
+        try {
+            if (expirationDate.isBlank()) {
+                return productRepository.save(Product.builder().name(name).price(price).build());
+            } else {
+                return productRepository.save(Product.builder().name(name).price(price).expirationDate(LocalDate.parse(expirationDate)).build());
+            }
+        } catch (Exception e) {
+            throw new CommentAppException(ErrorType.PRODUCT_NOT_CREATED);
+        }
+
+    }
 }

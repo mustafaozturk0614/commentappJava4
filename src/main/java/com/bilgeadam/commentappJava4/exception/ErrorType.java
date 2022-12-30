@@ -11,8 +11,17 @@ import org.springframework.http.HttpStatus;
 public enum ErrorType {
 
     USER_NOT_FOUND(1000, "Aramakta oldugunuz kullanıcı sistemde kayıtlı değildir", HttpStatus.INTERNAL_SERVER_ERROR),
+    USER_NOT_CREATED(1003, "kULLANICI OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR),
     VALUE_NOT_FOUND_IN_NAMES(1001, "Aramakta oldugunuz veri kullanıcı isimlerinde bulunmamaktadır", HttpStatus.INTERNAL_SERVER_ERROR),
-    VALUE_NOT_FOUND_IN_EMAILS(1002, "Aramakta oldugunuz veri kullanıcı emaillerinde bulunmamaktadır", HttpStatus.INTERNAL_SERVER_ERROR);
+    VALUE_NOT_FOUND_IN_EMAILS(1002, "Aramakta oldugunuz veri kullanıcı emaillerinde bulunmamaktadır", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    PRODUCT_NOT_FOUND(2000, "Aramakta oldugunuz ürün sistemde kayıtlı değildir", HttpStatus.INTERNAL_SERVER_ERROR),
+    PRODUCT_ALREADY_EXISTS_IN_FAVOURITE_LIST(2001, "Ürün zaten favori listesinde var", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    PRODUCT_NOT_CREATED(2003, "ÜRÜN OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    PRODUCTCOMMENT_NOT_FOUND(3000, "Aramakta oldugunuz yorum sistemde kayıtlı değildir", HttpStatus.INTERNAL_SERVER_ERROR),
+    PRODUCTCOMMENT_NOT_CREATED(3003, "YORUM OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR);
     private int code;
     private String message;
     HttpStatus httpStatus;

@@ -1,9 +1,7 @@
 package com.bilgeadam.commentappJava4.utility;
 
-import com.bilgeadam.commentappJava4.repository.entity.EUserType;
-import com.bilgeadam.commentappJava4.repository.entity.Product;
-import com.bilgeadam.commentappJava4.repository.entity.ProductComment;
-import com.bilgeadam.commentappJava4.repository.entity.User;
+import com.bilgeadam.commentappJava4.repository.entity.*;
+import com.bilgeadam.commentappJava4.service.LikeService;
 import com.bilgeadam.commentappJava4.service.ProductCommentService;
 import com.bilgeadam.commentappJava4.service.ProductService;
 import com.bilgeadam.commentappJava4.service.UserService;
@@ -22,14 +20,14 @@ public class DataImpl {
     private final UserService userService;
     private final ProductService productService;
     private final ProductCommentService productCommentService;
-    //   private final LikeService likeService;*/
+    private final LikeService likeService;
 
     @PostConstruct
     public void loadData() {
         createUser();
         createproduct();
         createproductComment();
-//   createLikes();
+        createLikes();
 
     }
 
@@ -111,21 +109,21 @@ public class DataImpl {
 
     }
 
-//    public  void createLikes() {
-//        Like like = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(1L).productId(1L).build();
-//        Like like2 = Like.builder().likedDate(LocalDate.now().minusMonths(5)).userId(1L).productId(8L).build();
-//        Like like3 = Like.builder().likedDate(LocalDate.now().minusYears(1)).userId(1L).productId(7L).build();
-//        Like like4 = Like.builder().likedDate(LocalDate.now().minusMonths(10)).userId(2L).productId(2L).build();
-//        Like like5 = Like.builder().likedDate(LocalDate.now().minusMonths(18)).userId(2L).productId(3L).build();
-//        Like like6 = Like.builder().likedDate(LocalDate.now().minusMonths(19)).userId(2L).productId(5L).build();
-//        Like like7 = Like.builder().likedDate(LocalDate.now().minusMonths(9)).userId(3L).productId(6L).build();
-//        Like like8 = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(2L).productId(1L).build();
-//        Like like9 = Like.builder().likedDate(LocalDate.now().minusMonths(5)).userId(2L).productId(8L).build();
-//        Like like10 = Like.builder().likedDate(LocalDate.now().minusDays(15)).userId(3L).productId(1L).build();
-//        Like like11 = Like.builder().likedDate(LocalDate.now().minusWeeks(9)).userId(3L).productId(8L).build();
-//        Like like12 = Like.builder().likedDate(LocalDate.now().minusWeeks(31)).userId(4L).productId(8L).build();
-//
-//        likeService.saveAll(List.of(like, like2, like3, like4, like5, like6, like7, like8, like9, like10, like11, like12));
-//
-//    }
+    public void createLikes() {
+        Like like = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(1L).productId(1L).build();
+        Like like2 = Like.builder().likedDate(LocalDate.now().minusMonths(5)).userId(1L).productId(8L).build();
+        Like like3 = Like.builder().likedDate(LocalDate.now().minusYears(1)).userId(1L).productId(7L).build();
+        Like like4 = Like.builder().likedDate(LocalDate.now().minusMonths(10)).userId(2L).productId(2L).build();
+        Like like5 = Like.builder().likedDate(LocalDate.now().minusMonths(18)).userId(2L).productId(3L).build();
+        Like like6 = Like.builder().likedDate(LocalDate.now().minusMonths(19)).userId(2L).productId(5L).build();
+        Like like7 = Like.builder().likedDate(LocalDate.now().minusMonths(9)).userId(3L).productId(6L).build();
+        Like like8 = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(2L).productId(1L).build();
+        Like like9 = Like.builder().likedDate(LocalDate.now().minusMonths(5)).userId(2L).productId(8L).build();
+        Like like10 = Like.builder().likedDate(LocalDate.now().minusDays(15)).userId(3L).productId(1L).build();
+        Like like11 = Like.builder().likedDate(LocalDate.now().minusWeeks(9)).userId(3L).productId(8L).build();
+        Like like12 = Like.builder().likedDate(LocalDate.now().minusWeeks(31)).userId(4L).productId(8L).build();
+
+        likeService.saveAll(List.of(like, like2, like3, like4, like5, like6, like7, like8, like9, like10, like11, like12));
+
+    }
 }
