@@ -1,7 +1,10 @@
 package com.bilgeadam.commentappJava4.service;
 
+import com.bilgeadam.commentappJava4.dto.request.UserCreateRequestDto;
+import com.bilgeadam.commentappJava4.dto.response.UserCreateResponseDto;
 import com.bilgeadam.commentappJava4.exception.CommentAppException;
 import com.bilgeadam.commentappJava4.exception.ErrorType;
+import com.bilgeadam.commentappJava4.mapper.UserMapper;
 import com.bilgeadam.commentappJava4.repository.IUserRepository;
 import com.bilgeadam.commentappJava4.repository.entity.Product;
 import com.bilgeadam.commentappJava4.repository.entity.User;
@@ -162,5 +165,25 @@ public class UserService {
             user.get().getFavProducts().add(productId);
             userRepository.save(user.get());
         }
+    }
+
+    public UserCreateResponseDto saveWithDto(UserCreateRequestDto dto) {
+
+        User user = User.builder().userType(dto.getUserType())
+                .password(dto.getPassword()).name(dto.getName()).surName(dto.getSurName()).email(dto.getEmail()).build();
+
+        userRepository.save(user);
+
+        return UserCreateResponseDto.builder()
+                .userType(user.getUserType()).email(user.getEmail()).surName(user.getSurName()).name(user.getName()).build();
+    }
+
+    public UserCreateResponseDto saveWithDto2(UserCreateRequestDto dto) {
+
+        User user = UserMapper.INSTANCE.toUser(dto);
+
+        userRepository.save(user);
+
+        return UserMapper.INSTANCE.toUserCreateResponseDto(user);
     }
 }

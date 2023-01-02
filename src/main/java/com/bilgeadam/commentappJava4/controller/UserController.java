@@ -1,11 +1,14 @@
 package com.bilgeadam.commentappJava4.controller;
 
+import com.bilgeadam.commentappJava4.dto.request.UserCreateRequestDto;
+import com.bilgeadam.commentappJava4.dto.response.UserCreateResponseDto;
 import com.bilgeadam.commentappJava4.repository.entity.User;
 import com.bilgeadam.commentappJava4.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
@@ -60,6 +63,19 @@ public class UserController {
         return ResponseEntity.ok(userService.save(name, surName, email, password));
     }
 
+    @PostMapping("/savewithdto")
+    public ResponseEntity<UserCreateResponseDto> saveWithDto(@RequestBody UserCreateRequestDto dto) {
+
+        return ResponseEntity.ok(userService.saveWithDto(dto));
+
+    }
+
+    @PostMapping("/savewithdto2")
+    public ResponseEntity<UserCreateResponseDto> saveWithDto2(@Valid @RequestBody UserCreateRequestDto dto) {
+
+        return ResponseEntity.ok(userService.saveWithDto2(dto));
+
+    }
 
     @GetMapping("/findall")
     public ResponseEntity<List<User>> findAll() {

@@ -35,7 +35,7 @@ public class LikeService {
 
         if (user.isPresent() && product.isPresent()) {
             try {
-                return repository.save(Like.builder().productId(productId).user(user.get()).build());
+                return repository.save(Like.builder().product(product.get()).user(user.get()).build());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }

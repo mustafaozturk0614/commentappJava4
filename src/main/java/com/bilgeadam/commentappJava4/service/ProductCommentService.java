@@ -94,7 +94,7 @@ public class ProductCommentService {
 
         if (product.isPresent() && user.isPresent()) {
             try {
-                return productCommentRepository.save(ProductComment.builder().comment(comment).productId(productId).userId(userId).build());
+                return productCommentRepository.save(ProductComment.builder().comment(comment).product(product.get()).user(user.get()).build());
             } catch (Exception e) {
                 throw new RuntimeException(e.getMessage());
             }
@@ -102,6 +102,6 @@ public class ProductCommentService {
 
             throw new CommentAppException(ErrorType.PRODUCTCOMMENT_NOT_CREATED);
         }
-        
+
     }
 }

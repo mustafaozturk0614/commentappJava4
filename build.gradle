@@ -28,6 +28,9 @@ dependencies {
     runtimeOnly 'org.postgresql:postgresql:42.5.1'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     implementation 'org.springdoc:springdoc-openapi-ui:1.6.11'
+    implementation 'org.mapstruct:mapstruct:1.5.2.Final'
+    annotationProcessor group: 'org.mapstruct', name: 'mapstruct-processor', version: '1.5.2.Final'
+
 }
 
 tasks.named('test') {

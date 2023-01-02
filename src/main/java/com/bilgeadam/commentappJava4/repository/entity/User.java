@@ -25,17 +25,21 @@ public class User {
     private String surName;
     @Column(length = 50)
     private String email;
-    @Column(length = 32)
+ 
     private String password;
     @Column(length = 15)
     private String phone;
-    @Builder.Default
+
     @Enumerated(EnumType.STRING)
-    private EUserType userType = EUserType.USER;
+    private EUserType userType;
 
     @ElementCollection
     @Builder.Default
     List<Long> favProducts = new ArrayList<>();
     @OneToMany
-    private List<Like> likes;
+    @Builder.Default
+    private List<Like> likes = new ArrayList<>();
+    @OneToMany
+    @Builder.Default
+    List<ProductComment> comments = new ArrayList<>();
 }
