@@ -21,7 +21,11 @@ public enum ErrorType {
     PRODUCT_NOT_CREATED(2003, "ÜRÜN OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR),
 
     PRODUCTCOMMENT_NOT_FOUND(3000, "Aramakta oldugunuz yorum sistemde kayıtlı değildir", HttpStatus.INTERNAL_SERVER_ERROR),
-    PRODUCTCOMMENT_NOT_CREATED(3003, "YORUM OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR);
+    PRODUCTCOMMENT_NOT_CREATED(3003, "YORUM OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR),
+
+    LIKE_NOT_CREATED(4003, "LIKE OLUŞTURULAMDI", HttpStatus.INTERNAL_SERVER_ERROR);
+
+
     private int code;
     private String message;
     HttpStatus httpStatus;

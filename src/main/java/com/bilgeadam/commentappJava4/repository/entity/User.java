@@ -32,9 +32,10 @@ public class User {
     @Builder.Default
     @Enumerated(EnumType.STRING)
     private EUserType userType = EUserType.USER;
-    
+
     @ElementCollection
     @Builder.Default
     List<Long> favProducts = new ArrayList<>();
-
+    @OneToMany
+    private List<Like> likes;
 }

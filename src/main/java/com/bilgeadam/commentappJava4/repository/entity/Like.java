@@ -18,9 +18,13 @@ public class Like {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
-    private long userId;
+    // private long userId;
     private long productId;
     @Builder.Default
     private LocalDate likedDate = LocalDate.now();
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
 }

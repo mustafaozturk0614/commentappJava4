@@ -1,6 +1,9 @@
 package com.bilgeadam.commentappJava4.utility;
 
-import com.bilgeadam.commentappJava4.repository.entity.*;
+import com.bilgeadam.commentappJava4.repository.entity.EUserType;
+import com.bilgeadam.commentappJava4.repository.entity.Product;
+import com.bilgeadam.commentappJava4.repository.entity.ProductComment;
+import com.bilgeadam.commentappJava4.repository.entity.User;
 import com.bilgeadam.commentappJava4.service.LikeService;
 import com.bilgeadam.commentappJava4.service.ProductCommentService;
 import com.bilgeadam.commentappJava4.service.ProductService;
@@ -27,8 +30,7 @@ public class DataImpl {
         createUser();
         createproduct();
         createproductComment();
-        createLikes();
-
+        // createLikes();
     }
 
 
@@ -109,7 +111,7 @@ public class DataImpl {
 
     }
 
-    public void createLikes() {
+/*    public void createLikes() {
         Like like = Like.builder().likedDate(LocalDate.now().minusMonths(1)).userId(1L).productId(1L).build();
         Like like2 = Like.builder().likedDate(LocalDate.now().minusMonths(5)).userId(1L).productId(8L).build();
         Like like3 = Like.builder().likedDate(LocalDate.now().minusYears(1)).userId(1L).productId(7L).build();
@@ -125,5 +127,5 @@ public class DataImpl {
 
         likeService.saveAll(List.of(like, like2, like3, like4, like5, like6, like7, like8, like9, like10, like11, like12));
 
-    }
+    }*/
 }
