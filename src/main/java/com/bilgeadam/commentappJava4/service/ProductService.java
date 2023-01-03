@@ -1,7 +1,10 @@
 package com.bilgeadam.commentappJava4.service;
 
+import com.bilgeadam.commentappJava4.dto.request.ProductCreateRequestDto;
+import com.bilgeadam.commentappJava4.dto.response.ProductCreateResponseDto;
 import com.bilgeadam.commentappJava4.exception.CommentAppException;
 import com.bilgeadam.commentappJava4.exception.ErrorType;
+import com.bilgeadam.commentappJava4.mapper.ProductMapper;
 import com.bilgeadam.commentappJava4.repository.IProductRepository;
 import com.bilgeadam.commentappJava4.repository.entity.Product;
 import lombok.RequiredArgsConstructor;
@@ -146,5 +149,13 @@ public class ProductService {
 
     public Product save(Product product) {
         return productRepository.save(product);
+    }
+
+
+    public ProductCreateResponseDto saveWithRequest(ProductCreateRequestDto dto) {
+        Product product = ProductMapper.INSTANCE.toProduct(dto);
+        productRepository.save(product);
+        return ProductMapper.INSTANCE.toProductCreateResponseDto(product);
+
     }
 }

@@ -34,4 +34,6 @@ public interface IUserRepository extends JpaRepository<User, Long> {
 
     @Query("select u from User  u where length( u.password)>:x")
     List<User> controlPassword2(@Param("x") int length);
+
+    Optional<User> findOptionalByEmail(String email);
 }

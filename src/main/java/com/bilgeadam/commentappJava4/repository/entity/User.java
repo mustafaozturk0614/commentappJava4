@@ -32,7 +32,8 @@ public class User {
     private String phone;
 
     @Enumerated(EnumType.STRING)
-    private EUserType userType;
+    @Builder.Default
+    private EUserType userType = EUserType.USER;
 
     @ElementCollection
     @Builder.Default

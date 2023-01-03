@@ -33,6 +33,11 @@ public class LikeController {
         return ResponseEntity.ok(likeService.save2(dto));
     }
 
+    @PostMapping("/save3")
+    public ResponseEntity<Like> save3(@RequestBody LikeCreateRequestDto dto) {
+        return ResponseEntity.ok(likeService.toLike(dto));
+    }
+
     @GetMapping("/findall")
     public ResponseEntity<List<Like>> findAll() {
 

@@ -190,4 +190,14 @@ public class UserService {
 
         return UserMapper.INSTANCE.toUserCreateResponseDto(user);
     }
+
+    public boolean register(UserCreateRequestDto dto) {
+        Optional<User> user = userRepository.findOptionalByEmail(dto.getEmail());
+        if (user.isPresent())
+
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND, "kullanıcı daha once kaydedilmiştir");
+
+        save(UserMapper.INSTANCE.toUser(dto));
+        return true;
+    }
 }

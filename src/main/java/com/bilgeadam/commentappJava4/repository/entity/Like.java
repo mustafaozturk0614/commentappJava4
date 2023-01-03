@@ -28,6 +28,6 @@ public class Like {
     private User user;
 
     @ManyToOne
-    @JoinColumn(name = "product_id", referencedColumnName = "id")
+    // @JoinColumn(name = "product_id", referencedColumnName = "id")
     private Product product;
 }

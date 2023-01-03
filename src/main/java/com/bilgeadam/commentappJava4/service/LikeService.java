@@ -109,4 +109,52 @@ public class LikeService {
             throw new CommentAppException(ErrorType.LIKE_NOT_CREATED);
         }
     }
+
+
+    public Like toLike(LikeCreateRequestDto like) {
+        Optional<User> userDb = userService.findById(like.getUserId());
+        Optional<Product> productDb = productService.findById(like.getProductId());
+
+        if (userDb.isEmpty()) {
+
+            throw new CommentAppException(ErrorType.USER_NOT_FOUND, "Kullanici Bulunamad�");
+
+        }
+        if (productDb.isEmpty()) {
+
+            throw new CommentAppException(ErrorType.PRODUCT_NOT_FOUND, "Urunu Bulamadik");
+        }
+
+        return save3(like, userDb.get(), productDb.get());
+
+
+    }
+
+    public Like save3(LikeCreateRequestDto dto, User user, Product product) {
+
+
+        if (controlLikes(user.getLikes(), product.getId())) {
+            Like like = LikeMapper.INSTANCE.toLike(dto);
+            System.out.println(like);
+            try {
+                like.setUser(user);
+                like.setProduct(product);
+                repository.save(like);
+                user.getLikes().add(like);
+                product.getLikes().add(like);
+                userService.save(user);
+                productService.save(product);
+                return like;
+            } catch (Exception e) {
+                throw new RuntimeException(e.getMessage());
+            }
+        } else {
+            throw new CommentAppException(ErrorType.LIKE_ALREADY_EXIST);
+        }
+    }
+
+    public void deleteById(long id) {
+
+        repository.deleteById(id);
+    }
 }
