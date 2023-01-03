@@ -21,7 +21,7 @@ public class UserCreateRequestDto {
     private String surName;
     @Email
     private String email;
-    @Size(min = 4, max = 32)
+    @Size(min = 4, max = 32, message = "Şifre en az 4 karakter en fazla 32 karakter olmalıdır")
     private String password;
     @Builder.Default
     private EUserType userType = EUserType.USER;

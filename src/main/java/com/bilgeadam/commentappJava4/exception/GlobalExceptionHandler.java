@@ -2,9 +2,13 @@ package com.bilgeadam.commentappJava4.exception;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
@@ -22,6 +26,17 @@ public class GlobalExceptionHandler {
         ErrorType errorType = ex.getErrorType();
         HttpStatus httpStatus = errorType.getHttpStatus();
         return new ResponseEntity<>(createError(errorType, ex), httpStatus);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    @ResponseBody
+    public ResponseEntity<ErrorMessage> handleMethodArgumentNotValidException(MethodArgumentNotValidException exception) {
+        ErrorType errorType = ErrorType.BAD_REQUEST_ERROR;
+        List<String> fields = new ArrayList<>();
+        exception.getBindingResult().getFieldErrors().forEach(e -> fields.add(e.getField() + ":" + e.getDefaultMessage()));
+        ErrorMessage errorMessage = createError(errorType, exception);
+        errorMessage.setFields(fields);
+        return new ResponseEntity<>(errorMessage, errorType.getHttpStatus());
     }
 
 

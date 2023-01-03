@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 @Service
 @RequiredArgsConstructor
@@ -34,10 +35,22 @@ public class LikeService {
         Optional<Product> product = productService.findById(productId);
 
         if (user.isPresent() && product.isPresent()) {
-            try {
-                return repository.save(Like.builder().product(product.get()).user(user.get()).build());
-            } catch (Exception e) {
-                throw new RuntimeException(e.getMessage());
+            if (controlLikes(user.get().getLikes(), productId)) {
+                Like like = new Like();
+                try {
+                    like.setUser(user.get());
+                    like.setProduct(product.get());
+                    repository.save(like);
+                    user.get().getLikes().add(like);
+                    product.get().getLikes().add(like);
+                    userService.save(user.get());
+                    productService.save(product.get());
+                    return like;
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            } else {
+                throw new CommentAppException(ErrorType.LIKE_ALREADY_EXIST);
             }
         } else {
             throw new CommentAppException(ErrorType.LIKE_NOT_CREATED);
@@ -49,4 +62,22 @@ public class LikeService {
     }
 
 
+    public boolean controlLikes(List<Like> likes, long productId) {
+
+        AtomicBoolean control = new AtomicBoolean(true);
+        for (Like like : likes) {
+            if (like.getProduct().getId() == productId) {
+                control.set(false);
+                break;
+            }
+        }
+/*        likes.stream().forEach(l -> {
+
+            if (l.getProduct().getId() == productId) {
+                control.set(false);
+            }
+
+        });*/
+        return control.get();
+    }
 }

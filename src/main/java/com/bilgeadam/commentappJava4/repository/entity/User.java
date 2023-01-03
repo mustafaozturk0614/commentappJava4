@@ -1,5 +1,6 @@
 package com.bilgeadam.commentappJava4.repository.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -25,7 +26,7 @@ public class User {
     private String surName;
     @Column(length = 50)
     private String email;
- 
+
     private String password;
     @Column(length = 15)
     private String phone;
@@ -36,9 +37,12 @@ public class User {
     @ElementCollection
     @Builder.Default
     List<Long> favProducts = new ArrayList<>();
+
     @OneToMany
     @Builder.Default
+    @JsonIgnore
     private List<Like> likes = new ArrayList<>();
+
     @OneToMany
     @Builder.Default
     List<ProductComment> comments = new ArrayList<>();
