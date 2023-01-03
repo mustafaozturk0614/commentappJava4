@@ -1,7 +1,10 @@
 package com.bilgeadam.commentappJava4.service;
 
+import com.bilgeadam.commentappJava4.dto.request.LikeCreateRequestDto;
+import com.bilgeadam.commentappJava4.dto.response.LikeResponseDto;
 import com.bilgeadam.commentappJava4.exception.CommentAppException;
 import com.bilgeadam.commentappJava4.exception.ErrorType;
+import com.bilgeadam.commentappJava4.mapper.LikeMapper;
 import com.bilgeadam.commentappJava4.repository.ILikeRepository;
 import com.bilgeadam.commentappJava4.repository.entity.Like;
 import com.bilgeadam.commentappJava4.repository.entity.Product;
@@ -79,5 +82,31 @@ public class LikeService {
 
         });*/
         return control.get();
+    }
+
+    public LikeResponseDto save2(LikeCreateRequestDto dto) {
+        Optional<User> user = userService.findById(dto.getUserId());
+        Optional<Product> product = productService.findById(dto.getProductId());
+        if (user.isPresent() && product.isPresent()) {
+            if (controlLikes(user.get().getLikes(), dto.getProductId())) {
+                Like like = new Like();
+                try {
+                    like.setUser(user.get());
+                    like.setProduct(product.get());
+                    repository.save(like);
+                    user.get().getLikes().add(like);
+                    product.get().getLikes().add(like);
+                    userService.save(user.get());
+                    productService.save(product.get());
+                    return LikeMapper.INSTANCE.toLikeResponseDto(dto);
+                } catch (Exception e) {
+                    throw new RuntimeException(e.getMessage());
+                }
+            } else {
+                throw new CommentAppException(ErrorType.LIKE_ALREADY_EXIST);
+            }
+        } else {
+            throw new CommentAppException(ErrorType.LIKE_NOT_CREATED);
+        }
     }
 }

@@ -1,12 +1,12 @@
 package com.bilgeadam.commentappJava4.controller;
 
+import com.bilgeadam.commentappJava4.dto.request.LikeCreateRequestDto;
+import com.bilgeadam.commentappJava4.dto.response.LikeResponseDto;
 import com.bilgeadam.commentappJava4.repository.entity.Like;
 import com.bilgeadam.commentappJava4.service.LikeService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -26,6 +26,11 @@ public class LikeController {
     @GetMapping("/save")
     public ResponseEntity<Like> save(long userId, long productId) {
         return ResponseEntity.ok(likeService.save(userId, productId));
+    }
+
+    @PostMapping("/save2")
+    public ResponseEntity<LikeResponseDto> save2(@RequestBody LikeCreateRequestDto dto) {
+        return ResponseEntity.ok(likeService.save2(dto));
     }
 
     @GetMapping("/findall")

@@ -1,6 +1,5 @@
 package com.bilgeadam.commentappJava4.repository.entity;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -24,14 +23,14 @@ public class Product {
     private double price;
     private LocalDate expirationDate;
 
-/*    @Builder.Default
-    @OneToMany
-    List<Like> likes = new ArrayList<>();*/
-
     @Builder.Default
+    @OneToMany
+    List<Like> likes = new ArrayList<>();
+
+ /*   @Builder.Default
     @JsonIgnore
     @OneToMany(mappedBy = "product")
-    List<Like> likes = new ArrayList<>();
+    List<Like> likes2 = new ArrayList<>();*/
 
     @OneToMany
     @Builder.Default
